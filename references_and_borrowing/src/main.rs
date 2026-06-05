@@ -40,6 +40,12 @@ fn main() {
     println!("{r3}");
 
 
+    //About dangling references:
+    //let pointer_to_nowhere = dangle();
+
+    let good_one = no_dangle();
+    println!("{}", good_one);    
+
 }
 
 //Esta funcion no se hace owner del str porque resive una reference a este, no el valor como tal
@@ -57,3 +63,29 @@ fn calculate_length(str: &String) -> usize {
 fn change(str: &mut String) {
     str.push_str(" added text");
 } //Pero igual s1 no pierde la ownership del valor porque se esta pasando una referencia.
+
+
+//El problema que esta funcion genera es que s y dropped cuando dangle retorna.
+// fn dangle() -> &String {
+//     let s = String::from("eh?");
+//     return &s;
+// }
+
+//En este caso no hay problema porque el caller de esta funcion pasa a ser el owner del valor
+//Anteiormente se pasaba una referencia de un valor iba a ser dropeado antes de ser usado,
+//De ahi la idea de referencia colgada.
+//todo esto sirve para evitar el famoso null pointer error.
+fn no_dangle() -> String {
+    return String::from("chill");
+}
+
+//En resumen, estas son las reglas de las referencias:
+//1-At any given time, you can have either one mutable reference or any number of immutable references.
+//2-References must be always be valid.
+
+//Sobre uno
+//El hecho de que no puedan coexistir referencias inmutables con mutables a un mismo valor es porque el compilador busca evitar las reace conditions.
+//solo cuando es seguro que no se va a leer un determinado valor desde una referencia inmutable es cuando se permite declarar una mutable ref.
+
+//Sobre dos
+//La finalidad de esto es evitar punteros hacia valores nulos. (Como en el ejemplo de dangle).
