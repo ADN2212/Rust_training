@@ -11,10 +11,10 @@ fn main() {
     let b = a;
 
     println!("{}", a);//No perdio la ownership
-    println!("{}", b);//tiene su propia copia de 5    
+    println!("{}", b);//tiene su propia copia de 5
 
 
-    //Ahora que pasa con valores que estan en el head, es decir, valores por referencia.
+    //Ahora que pasa con valores que estan en el heap, es decir, valores por referencia.
     let s = String::from("Some potencia dinamic ");
     let s2 = s;//Ahora s2 es el nuevo owner del str origal, es decir, tiene el puntero (la direccion), a esto se le llama mover el value,
     //println!("{}", s);//Da un error porque s ya no es el owner del str, se podria decir que el pointer fue pasado a s2.
